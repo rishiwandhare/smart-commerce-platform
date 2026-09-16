@@ -37,7 +37,7 @@ export function Footer({ onNavigate }) {
               >
                 <IconZap size={18} />
               </div>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>PricePulse</span>
+              <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>Smart Cart</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
               Real-time multi-retailer e-commerce price comparison platform. We index authorized feeds, match identical products with AI entity resolution, and find you the guaranteed lowest price.
@@ -150,7 +150,7 @@ export function Footer({ onNavigate }) {
           }}
         >
           <div>
-            &copy; {new Date().getFullYear()} PricePulse Platform. Built with React + Vite and Python FastAPI backend ready.
+            &copy; {new Date().getFullYear()} Smart Cart. Built with React + Vite and Python FastAPI backend ready.
           </div>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             <span>Permitted Retailer APIs Only</span>

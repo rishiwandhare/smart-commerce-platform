@@ -79,7 +79,7 @@ export function Navbar({ onNavigate, currentPath = '' }) {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>
-                PricePulse
+                Smart Cart
               </span>
               <span className="badge badge-primary" style={{ fontSize: '0.625rem', padding: '2px 6px' }}>
                 AI Match

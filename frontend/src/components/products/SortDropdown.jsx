@@ -17,11 +17,13 @@ export function SortDropdown({ sortBy, onSortChange }) {
           width: 'auto'
         }}
       >
+        <option value="relevance">Relevance</option>
         <option value="lowest_price">Lowest Price First</option>
         <option value="highest_price">Highest Price First</option>
         <option value="biggest_drop">Biggest Price Drop (%)</option>
         <option value="top_rated">Customer Rating</option>
         <option value="most_retailers">Most Sellers Available</option>
+        <option value="newest">Newest</option>
       </select>
     </div>
   );

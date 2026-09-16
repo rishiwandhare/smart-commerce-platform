@@ -17,7 +17,11 @@ export const productService = {
     minPrice = 0,
     maxPrice = 10000,
     sortBy = 'lowest_price',
-    inStockOnly = false
+    inStockOnly = false,
+    minRating = 0,
+    pickupOnly = false,
+    discountOnly = false,
+    seller = ''
   } = {}) {
     // Simulate slight network latency
     await new Promise((resolve) => setTimeout(resolve, 80));
@@ -58,6 +62,13 @@ export const productService = {
       );
     }
 
+    if (minRating) results = results.filter((p) => p.rating >= minRating);
+    if (pickupOnly) results = results.filter((p) => p.offers.some((o) => o.localPickup));
+    if (discountOnly) results = results.filter((p) => (p.priceDropPct || 0) > 0);
+    if (seller) {
+      results = results.filter((p) => p.offers.some((o) => o.retailerName.toLowerCase() === seller.toLowerCase()));
+    }
+
     // Sorting
     switch (sortBy) {
       case 'lowest_price':
@@ -74,6 +85,12 @@ export const productService = {
         break;
       case 'most_retailers':
         results.sort((a, b) => b.offers.length - a.offers.length);
+        break;
+      case 'newest':
+        results.sort((a, b) => b.id.localeCompare(a.id));
+        break;
+      case 'relevance':
+        results.sort((a, b) => b.rating - a.rating || b.offers.length - a.offers.length);
         break;
       default:
         break;
@@ -92,6 +109,19 @@ export const productService = {
       throw new Error(`Product with ID ${id} not found`);
     }
     return product;
+  },
+
+  async getProductOffers(id) {
+    const product = await this.getProductById(id);
+    return product.offers || [];
+  },
+
+  async getPriceHistory(id, range = 'all') {
+    const product = await this.getProductById(id);
+    const history = product.priceHistory || [];
+    if (range === '30d') return history.slice(-2);
+    if (range === '90d') return history.slice(-4);
+    return history;
   },
 
   /**

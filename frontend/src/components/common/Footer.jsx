@@ -28,7 +28,7 @@ export function Footer({ onNavigate }) {
                   width: '32px',
                   height: '32px',
                   borderRadius: 'var(--radius-md)',
-                  background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%)',
+                  background: 'var(--primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -154,7 +154,7 @@ export function Footer({ onNavigate }) {
           </div>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             <span>Permitted Retailer APIs Only</span>
-            <span>No Fake Data</span>
+            <span>Demo catalog data</span>
             <span>Zero Tracking Pixels</span>
           </div>
         </div>

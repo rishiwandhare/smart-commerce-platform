@@ -29,7 +29,7 @@ export function CustomerDashboardPage({ onNavigate }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '1.5rem',
-          background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%)'
+          background: 'var(--primary-dark)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
@@ -100,7 +100,7 @@ export function CustomerDashboardPage({ onNavigate }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(360px, 100%), 1fr))',
           gap: '2rem'
         }}
       >

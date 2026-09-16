@@ -23,6 +23,7 @@ export function Navbar({ onNavigate, currentPath = '' }) {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +41,7 @@ export function Navbar({ onNavigate, currentPath = '' }) {
         top: 0,
         zIndex: 100,
         height: 'var(--header-height)',
-        backgroundColor: 'rgba(11, 15, 25, 0.85)',
+        backgroundColor: 'rgba(255, 255, 255, 0.94)',
         backdropFilter: 'blur(16px)',
         borderBottom: '1px solid var(--border-subtle)',
         display: 'flex',
@@ -65,19 +66,19 @@ export function Navbar({ onNavigate, currentPath = '' }) {
               width: '38px',
               height: '38px',
               borderRadius: 'var(--radius-md)',
-              background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%)',
+              background: 'var(--primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#ffffff',
-              boxShadow: '0 0 16px rgba(99, 102, 241, 0.4)'
+              boxShadow: 'var(--shadow-md)'
             }}
           >
             <IconZap size={22} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', background: 'linear-gradient(to right, #ffffff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>
                 PricePulse
               </span>
               <span className="badge badge-primary" style={{ fontSize: '0.625rem', padding: '2px 6px' }}>
@@ -89,6 +90,7 @@ export function Navbar({ onNavigate, currentPath = '' }) {
 
         {/* Global Search Bar */}
         <form
+          className="global-search"
           onSubmit={handleSearchSubmit}
           style={{
             flex: '1',
@@ -137,10 +139,26 @@ export function Navbar({ onNavigate, currentPath = '' }) {
           </button>
         </form>
 
+        <button
+          className="mobile-menu-toggle"
+          onClick={() => setShowMobileMenu((current) => !current)}
+          aria-expanded={showMobileMenu}
+          aria-controls="mobile-navigation"
+        >
+          <IconSliders size={18} /> Menu
+        </button>
+
         {/* Dynamic Navigation Links based on persona */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <nav className="main-navigation" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {isCustomer && (
             <>
+              <button
+                onClick={() => onNavigate('search')}
+                className="btn btn-outline btn-sm nav-categories"
+                style={{ border: 'none', color: currentPath.startsWith('search') ? 'var(--primary)' : 'var(--text-secondary)' }}
+              >
+                Categories
+              </button>
               <button
                 onClick={() => onNavigate('search')}
                 className="btn btn-outline btn-sm"
@@ -479,6 +497,20 @@ export function Navbar({ onNavigate, currentPath = '' }) {
           </div>
 
         </nav>
+
+        {showMobileMenu && (
+          <nav id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation">
+            {isCustomer && <>
+              <button onClick={() => { onNavigate('search'); setShowMobileMenu(false); }}>Categories & deals</button>
+              <button onClick={() => { onNavigate('wishlist'); setShowMobileMenu(false); }}>Wishlist ({wishlistCount})</button>
+              <button onClick={() => { onNavigate('alerts'); setShowMobileMenu(false); }}>Price alerts ({alertCount})</button>
+              <button onClick={() => { onNavigate('orders'); setShowMobileMenu(false); }}>Orders ({orders.length})</button>
+            </>}
+            <button onClick={() => { onNavigate('customer'); setShowMobileMenu(false); }}>Profile</button>
+            {isShopkeeper && <button onClick={() => { onNavigate('shopkeeper'); setShowMobileMenu(false); }}>Shopkeeper workspace</button>}
+            {isAdmin && <button onClick={() => { onNavigate('admin'); setShowMobileMenu(false); }}>Admin console</button>}
+          </nav>
+        )}
       </div>
     </header>
   );

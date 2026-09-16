@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productService } from '../../services/productService';
+import { storeService } from '../../services/storeService';
 import { ProductCard } from '../../components/products/ProductCard';
 import {
   IconSearch,
@@ -15,17 +16,20 @@ export function HomePage({ onNavigate }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [topDrops, setTopDrops] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [nearbyStores, setNearbyStores] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadHomeData() {
       try {
-        const [drops, all] = await Promise.all([
+        const [drops, all, stores] = await Promise.all([
           productService.getTopPriceDrops(),
-          productService.getProducts()
+          productService.getProducts(),
+          storeService.getNearbyStores({ maxDistanceMiles: 10 })
         ]);
         setTopDrops(drops);
-        setFeaturedProducts(all.slice(0, 4));
+        setFeaturedProducts(all);
+        setNearbyStores(stores);
       } catch (err) {
         console.error(err);
       } finally {
@@ -56,6 +60,7 @@ export function HomePage({ onNavigate }) {
     <div className="container" style={{ paddingTop: '2.5rem', paddingBottom: '3rem' }}>
       {/* Hero Section */}
       <section
+        className="home-hero"
         style={{
           textAlign: 'center',
           maxWidth: '850px',
@@ -79,16 +84,16 @@ export function HomePage({ onNavigate }) {
             fontWeight: 800,
             lineHeight: 1.15,
             letterSpacing: '-0.03em',
-            background: 'linear-gradient(135deg, #ffffff 30%, #94a3b8 100%)',
+            color: 'var(--text-inverse)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'var(--text-inverse)'
           }}
         >
-          Never Overpay Again. Find the Guaranteed Lowest Price.
+          Compare Prices. Shop Smarter.
         </h1>
 
-        <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', maxWidth: '620px', lineHeight: 1.6 }}>
-          We compare real-time prices across Amazon, Best Buy, Walmart, and local independent stores. Click <strong>Buy Now</strong> for direct checkout, or reserve for same-day local pickup.
+        <p style={{ fontSize: '1.125rem', color: '#c7d2fe', maxWidth: '620px', lineHeight: 1.6 }}>
+            Compare current prices, delivery costs, stock and pickup options across online and local sellers before you buy.
         </p>
 
         {/* Hero Search Box */}
@@ -112,7 +117,7 @@ export function HomePage({ onNavigate }) {
               fontSize: '1.0625rem',
               borderRadius: 'var(--radius-full)',
               backgroundColor: 'var(--bg-glass-card)',
-              boxShadow: '0 0 30px rgba(99, 102, 241, 0.2)'
+              boxShadow: 'var(--shadow-md)'
             }}
           />
           <span
@@ -128,7 +133,7 @@ export function HomePage({ onNavigate }) {
           </span>
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-cta"
             style={{
               position: 'absolute',
               right: '6px',
@@ -138,7 +143,7 @@ export function HomePage({ onNavigate }) {
               padding: '0 1.5rem'
             }}
           >
-            Search Deals
+              Search Products
           </button>
         </form>
 
@@ -154,6 +159,40 @@ export function HomePage({ onNavigate }) {
               <span>{c.icon}</span> {c.label}
             </button>
           ))}
+        </div>
+      </section>
+
+      {/* Popular Categories */}
+      <section className="home-section">
+        <div className="section-heading-row">
+          <div>
+            <span className="eyebrow">Start with a category</span>
+            <h2>Popular categories</h2>
+          </div>
+          <button className="btn btn-outline btn-sm" onClick={() => onNavigate('search')}>View catalog <IconArrowRight size={16} /></button>
+        </div>
+        <div className="category-grid">
+          {quickCategories.map((category) => (
+            <button className="category-tile glass-card" key={category.category} onClick={() => onNavigate(`search?category=${category.category}`)}>
+              <span className="category-icon">{category.icon}</span>
+              <strong>{category.label}</strong>
+              <span>Compare offers</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Best Price Opportunities */}
+      <section className="home-section">
+        <div className="section-heading-row">
+          <div>
+            <span className="eyebrow">Lowest available offers</span>
+            <h2>Best price opportunities</h2>
+          </div>
+          <span className="demo-note">Demo catalog data</span>
+        </div>
+        <div className="product-grid compact-grid">
+          {featuredProducts.slice(0, 3).map((product) => <ProductCard key={product.id} product={product} onNavigate={onNavigate} />)}
         </div>
       </section>
 
@@ -186,6 +225,38 @@ export function HomePage({ onNavigate }) {
           {topDrops.map((product) => (
             <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
           ))}
+        </div>
+      </section>
+
+      {/* Nearby Stores */}
+      <section className="home-section">
+        <div className="section-heading-row">
+          <div>
+            <span className="eyebrow">Local availability</span>
+            <h2>Nearby stores with pickup</h2>
+          </div>
+          <span className="demo-note">No personal location used</span>
+        </div>
+        <div className="store-preview-grid">
+          {nearbyStores.slice(0, 3).map((store) => (
+            <article className="store-preview glass-card" key={store.id}>
+              <div className="store-preview-icon"><IconStore size={20} /></div>
+              <div><h3>{store.name}</h3><p>{store.distanceMiles} miles away · {store.hours}</p></div>
+              <strong className={store.hasItem ? 'success-text' : 'muted-copy'}>{store.hasItem ? `${store.stockCount} in stock` : 'Check availability'}</strong>
+              <span>{store.hasItem ? 'Pickup available' : 'Online comparison only'}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Recommendations */}
+      <section className="home-section">
+        <div className="section-heading-row">
+          <div><span className="eyebrow">For your next comparison</span><h2>Recommended products</h2></div>
+          <span className="demo-note">Based on demo browsing signals</span>
+        </div>
+        <div className="grid-products">
+          {featuredProducts.slice(3, 7).map((product) => <ProductCard key={product.id} product={product} onNavigate={onNavigate} />)}
         </div>
       </section>
 

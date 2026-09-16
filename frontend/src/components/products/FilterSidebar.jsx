@@ -12,6 +12,14 @@ export function FilterSidebar({
   onPriceChange,
   inStockOnly,
   onInStockChange,
+  minRating,
+  onRatingChange,
+  pickupOnly,
+  onPickupChange,
+  discountOnly,
+  onDiscountChange,
+  seller,
+  onSellerChange,
   onReset
 }) {
   return (
@@ -74,6 +82,33 @@ export function FilterSidebar({
             );
           })}
         </div>
+      </div>
+
+      <div style={{ borderTop: '1px solid var(--border-subtle)' }} />
+
+      <div>
+        <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Rating</h4>
+        <select className="input-field" value={minRating} onChange={(e) => onRatingChange(Number(e.target.value))} aria-label="Minimum rating">
+          <option value="0">Any rating</option>
+          <option value="4">4 stars and up</option>
+          <option value="4.5">4.5 stars and up</option>
+        </select>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Seller</h4>
+        <select className="input-field" value={seller} onChange={(e) => onSellerChange(e.target.value)} aria-label="Seller">
+          <option value="">All sellers</option>
+          <option value="Amazon">Amazon</option>
+          <option value="Best Buy">Best Buy</option>
+          <option value="Walmart">Walmart</option>
+          <option value="MetroTech Express">MetroTech Express</option>
+        </select>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+        <label><input type="checkbox" checked={pickupOnly} onChange={(e) => onPickupChange(e.target.checked)} /> Local pickup available</label>
+        <label><input type="checkbox" checked={discountOnly} onChange={(e) => onDiscountChange(e.target.checked)} /> Has a price drop</label>
       </div>
 
       <div style={{ borderTop: '1px solid var(--border-subtle)' }} />

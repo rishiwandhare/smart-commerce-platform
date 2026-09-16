@@ -35,6 +35,7 @@ export function PriceComparisonTable({ product, onReservePickup }) {
           {product.offers.length} Verified Offers
         </Badge>
       </div>
+      <div className="comparison-demo-note">Demo offer data. Final price includes the listed delivery fee when available.</div>
 
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '700px' }}>
@@ -44,6 +45,9 @@ export function PriceComparisonTable({ product, onReservePickup }) {
               <th style={{ padding: '1rem' }}>Condition & Stock</th>
               <th style={{ padding: '1rem' }}>Delivery / Fulfillment</th>
               <th style={{ padding: '1rem' }}>Price</th>
+              <th style={{ padding: '1rem' }}>Delivery fee</th>
+              <th style={{ padding: '1rem' }}>Final price</th>
+              <th style={{ padding: '1rem' }}>Updated</th>
               <th style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>Action</th>
             </tr>
           </thead>
@@ -51,17 +55,20 @@ export function PriceComparisonTable({ product, onReservePickup }) {
             {sortedOffers.map((offer, idx) => {
               const isBestPrice = offer.price === minPrice;
               const hasPickup = offer.localPickup;
+              const deliveryFeeMatch = offer.shipping?.match(/\$(\d+(?:\.\d{1,2})?)/);
+              const deliveryFee = offer.deliveryFee ?? (deliveryFeeMatch ? Number(deliveryFeeMatch[1]) : 0);
+              const finalPrice = offer.price + deliveryFee;
 
               return (
                 <tr
                   key={offer.id || idx}
                   style={{
                     borderBottom: '1px solid var(--border-subtle)',
-                    backgroundColor: isBestPrice ? 'rgba(99, 102, 241, 0.04)' : 'transparent',
+                    backgroundColor: isBestPrice ? 'var(--success-light)' : 'transparent',
                     transition: 'background var(--transition-fast)'
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = isBestPrice ? 'rgba(99, 102, 241, 0.04)' : 'transparent')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = isBestPrice ? 'var(--success-light)' : 'transparent')}
                 >
                   {/* Retailer Name & Seller */}
                   <td style={{ padding: '1.25rem 1.5rem' }}>
@@ -133,7 +140,7 @@ export function PriceComparisonTable({ product, onReservePickup }) {
 
                   {/* Price */}
                   <td style={{ padding: '1rem' }}>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: isBestPrice ? '#34d399' : 'var(--text-primary)' }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: isBestPrice ? 'var(--success)' : 'var(--text-primary)' }}>
                       ${offer.price.toFixed(2)}
                     </div>
                     {offer.originalPrice > offer.price && (
@@ -141,6 +148,18 @@ export function PriceComparisonTable({ product, onReservePickup }) {
                         ${offer.originalPrice.toFixed(2)}
                       </div>
                     )}
+                  </td>
+
+                  <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>
+                    {deliveryFee ? `$${deliveryFee.toFixed(2)}` : 'Free'}
+                  </td>
+
+                  <td style={{ padding: '1rem' }}>
+                    <strong style={{ color: isBestPrice ? 'var(--success)' : 'var(--text-primary)' }}>${finalPrice.toFixed(2)}</strong>
+                  </td>
+
+                  <td style={{ padding: '1rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                    {offer.lastUpdated || '8 min ago'}
                   </td>
 
                   {/* Action Buttons */}
@@ -160,7 +179,7 @@ export function PriceComparisonTable({ product, onReservePickup }) {
                         href={offer.productUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`btn btn-sm ${isBestPrice ? 'btn-success' : 'btn-primary'}`}
+                        className="btn btn-cta btn-sm"
                         id={`buy-now-${offer.id}`}
                       >
                         Buy Now <IconExternalLink size={14} />

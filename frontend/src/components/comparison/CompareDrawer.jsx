@@ -30,7 +30,7 @@ export function CompareDrawer({ onNavigate }) {
             zIndex: 90,
             width: '90%',
             maxWidth: '850px',
-            background: 'rgba(15, 23, 42, 0.92)',
+            background: 'rgba(255, 255, 255, 0.96)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--border-medium)',
             borderRadius: 'var(--radius-xl)',

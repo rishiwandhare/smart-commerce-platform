@@ -1,54 +1,59 @@
 /* ==========================================================================
    Design System & Theme Tokens - Price Comparator Platform
-   Modern High-Tech Startup Aesthetic (Dark Glassmorphism + Electric Accents)
+  Price comparison platform design tokens
    ========================================================================== */
 
 :root {
   /* Color Palette */
-  --bg-primary: #0b0f19;
-  --bg-secondary: #111827;
-  --bg-surface: #1e293b;
-  --bg-surface-elevated: #26354a;
-  --bg-surface-hover: #334155;
-  --bg-glass: rgba(30, 41, 59, 0.7);
-  --bg-glass-card: rgba(17, 24, 39, 0.85);
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-surface-hover: #e2e8f0;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-glass-card: #ffffff;
 
-  /* Primary Brand (Electric Indigo / Violet) */
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: rgba(99, 102, 241, 0.15);
-  --primary-glow: rgba(99, 102, 241, 0.35);
+  /* Indigo Commerce brand palette */
+  --primary: #3730a3;
+  --primary-dark: #1e1b4b;
+  --primary-hover: #312e81;
+  --primary-light: #eef2ff;
+  --primary-glow: rgba(55, 48, 163, 0.16);
+  --cta: #f59e0b;
+  --cta-hover: #d97706;
 
   /* Secondary Accent (Cyan / Aqua) */
   --accent-cyan: #06b6d4;
   --accent-cyan-light: rgba(6, 182, 212, 0.15);
 
   /* Functional Status Colors */
-  --success: #10b981;
-  --success-light: rgba(16, 185, 129, 0.15);
-  --warning: #f59e0b;
-  --warning-light: rgba(245, 158, 11, 0.15);
-  --danger: #ef4444;
-  --danger-light: rgba(239, 68, 68, 0.15);
-  --info: #3b82f6;
+  --success: #059669;
+  --success-light: #ecfdf5;
+  --warning: #d97706;
+  --warning-light: #fffbeb;
+  --danger: #dc2626;
+  --danger-light: rgba(220, 38, 38, 0.12);
+  --info: #0284c7;
+  --info-light: #f0f9ff;
 
   /* Typography */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-inverse: #0f172a;
+  --text-primary: #111827;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-disabled: #cbd5e1;
+  --text-inverse: #ffffff;
 
   /* Borders & Dividers */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.14);
-  --border-focus: rgba(99, 102, 241, 0.5);
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-focus: #818cf8;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 20px 40px rgba(15, 23, 42, 0.16);
+  --shadow-glow: 0 8px 24px rgba(55, 48, 163, 0.16);
 
   /* Radii */
   --radius-sm: 6px;
@@ -141,14 +146,14 @@ button, input, select, textarea {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+  background: var(--primary);
   color: #ffffff;
-  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #7174f3 0%, #4338ca 100%);
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.45);
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
 
@@ -176,12 +181,33 @@ button, input, select, textarea {
 }
 
 .btn-success {
-  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+  background: var(--success);
   color: #ffffff;
 }
 
+.btn-cta {
+  background: var(--cta);
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-cta:hover {
+  background: var(--cta-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible,
+.btn-icon:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
 .btn-success:hover {
-  background: linear-gradient(135deg, #34d399 0%, #047857 100%);
+  background: #15803d;
   transform: translateY(-1px);
 }
 
@@ -231,30 +257,30 @@ button, input, select, textarea {
 
 .badge-success {
   background: var(--success-light);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--success);
+  border: 1px solid #a7f3d0;
 }
 
 .badge-primary {
   background: var(--primary-light);
-  color: #a5b4fc;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--primary);
+  border: 1px solid #c7d2fe;
 }
 
 .badge-warning {
   background: var(--warning-light);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+  border: 1px solid #fde68a;
 }
 
 .badge-danger {
   background: var(--danger-light);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--danger);
+  border: 1px solid #fecaca;
 }
 
 .badge-neutral {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-surface-elevated);
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
 }

@@ -22,7 +22,7 @@ export function Toast() {
         padding: '14px 20px',
         background: 'var(--bg-surface-elevated)',
         color: 'var(--text-primary)',
-        border: `1px solid ${isSuccess ? 'rgba(16, 185, 129, 0.4)' : 'rgba(99, 102, 241, 0.4)'}`,
+        border: `1px solid ${isSuccess ? '#a7f3d0' : '#c7d2fe'}`,
         borderRadius: 'var(--radius-lg)',
         boxShadow: 'var(--shadow-xl)',
         backdropFilter: 'blur(16px)',

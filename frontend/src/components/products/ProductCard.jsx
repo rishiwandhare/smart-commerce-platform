@@ -52,7 +52,7 @@ export function ProductCard({ product, onNavigate }) {
           }}
           className="btn-icon"
           style={{
-            background: 'rgba(15, 23, 42, 0.75)',
+            background: 'var(--bg-surface)',
             backdropFilter: 'blur(8px)',
             borderRadius: '50%',
             color: isFavorite ? 'var(--danger)' : 'var(--text-muted)'
@@ -92,7 +92,7 @@ export function ProductCard({ product, onNavigate }) {
               position: 'absolute',
               bottom: '8px',
               left: '8px',
-              background: 'rgba(11, 15, 25, 0.85)',
+              background: 'rgba(30, 27, 75, 0.86)',
               border: '1px solid var(--border-subtle)',
               borderRadius: 'var(--radius-sm)',
               padding: '2px 6px',
@@ -130,7 +130,7 @@ export function ProductCard({ product, onNavigate }) {
             fontWeight: 600,
             lineHeight: 1.4,
             marginBottom: '0.75rem',
-            color: 'var(--text-primary)',
+              color: 'var(--text-primary)',
             cursor: 'pointer',
             display: '-webkit-box',
             WebkitLineClamp: 2,

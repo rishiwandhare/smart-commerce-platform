@@ -106,13 +106,8 @@ export function ProductDetailPage({ productId, onNavigate }) {
 
       {/* Product Overview Header Grid */}
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-          gap: '2.5rem',
-          alignItems: 'start',
-          marginBottom: '3rem'
-        }}
+        className="product-overview-grid"
+        style={{ marginBottom: '3rem' }}
       >
         {/* Left: Image Gallery Card */}
         <div
@@ -177,7 +172,7 @@ export function ProductDetailPage({ productId, onNavigate }) {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-              <span style={{ fontSize: '2.25rem', fontWeight: 800, color: '#34d399' }}>
+              <span style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--success)' }}>
                 ${product.lowestPrice.toFixed(2)}
               </span>
               {product.originalMSRP > product.lowestPrice && (
@@ -203,7 +198,7 @@ export function ProductDetailPage({ productId, onNavigate }) {
                   href={bestOffer.productUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-success btn-lg"
+                  className="btn btn-cta btn-lg"
                   style={{ flex: 1, minWidth: '180px' }}
                 >
                   Buy Now at {bestOffer.retailerName} (${bestOffer.price.toFixed(2)})

@@ -13,6 +13,10 @@ export function SearchResultsPage({ onNavigate, queryParams = {} }) {
   const [maxPrice, setMaxPrice] = useState(4000);
   const [sortBy, setSortBy] = useState(queryParams.sortBy || 'lowest_price');
   const [inStockOnly, setInStockOnly] = useState(false);
+  const [minRating, setMinRating] = useState(0);
+  const [pickupOnly, setPickupOnly] = useState(false);
+  const [discountOnly, setDiscountOnly] = useState(false);
+  const [seller, setSeller] = useState('');
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +41,11 @@ export function SearchResultsPage({ onNavigate, queryParams = {} }) {
           minPrice,
           maxPrice,
           sortBy,
-          inStockOnly
+          inStockOnly,
+          minRating,
+          pickupOnly,
+          discountOnly,
+          seller
         });
         setProducts(results);
       } catch (err) {
@@ -47,7 +55,7 @@ export function SearchResultsPage({ onNavigate, queryParams = {} }) {
       }
     }
     fetchResults();
-  }, [query, category, brand, minPrice, maxPrice, sortBy, inStockOnly]);
+  }, [query, category, brand, minPrice, maxPrice, sortBy, inStockOnly, minRating, pickupOnly, discountOnly, seller]);
 
   const handleResetFilters = () => {
     setQuery('');
@@ -57,6 +65,10 @@ export function SearchResultsPage({ onNavigate, queryParams = {} }) {
     setMaxPrice(4000);
     setSortBy('lowest_price');
     setInStockOnly(false);
+    setMinRating(0);
+    setPickupOnly(false);
+    setDiscountOnly(false);
+    setSeller('');
   };
 
   return (
@@ -87,14 +99,7 @@ export function SearchResultsPage({ onNavigate, queryParams = {} }) {
       </div>
 
       {/* Main Layout: Sidebar + Product Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '260px 1fr',
-          gap: '2rem',
-          alignItems: 'start'
-        }}
-      >
+      <div className="search-results-layout">
         {/* Filter Sidebar */}
         <FilterSidebar
           category={category}
@@ -106,6 +111,14 @@ export function SearchResultsPage({ onNavigate, queryParams = {} }) {
           onPriceChange={(min, max) => { setMinPrice(min); setMaxPrice(max); }}
           inStockOnly={inStockOnly}
           onInStockChange={setInStockOnly}
+          minRating={minRating}
+          onRatingChange={setMinRating}
+          pickupOnly={pickupOnly}
+          onPickupChange={setPickupOnly}
+          discountOnly={discountOnly}
+          onDiscountChange={setDiscountOnly}
+          seller={seller}
+          onSellerChange={setSeller}
           onReset={handleResetFilters}
         />
 

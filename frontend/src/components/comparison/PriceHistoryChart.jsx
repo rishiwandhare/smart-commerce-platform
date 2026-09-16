@@ -16,10 +16,16 @@ export function PriceHistoryChart({ priceHistory = [], allTimeLow, allTimeHigh, 
 
   // Filter based on timeRange
   let displayData = [...priceHistory];
-  if (timeRange === '30d') {
+  if (timeRange === '7d') {
+    displayData = displayData.slice(-1);
+  } else if (timeRange === '30d') {
     displayData = displayData.slice(-2);
-  } else if (timeRange === '90d') {
+  } else if (timeRange === '3m') {
     displayData = displayData.slice(-4);
+  } else if (timeRange === '6m') {
+    displayData = displayData.slice(-6);
+  } else if (timeRange === '1y') {
+    displayData = displayData.slice(-12);
   }
 
   // SVG Chart Dimensions
@@ -29,6 +35,7 @@ export function PriceHistoryChart({ priceHistory = [], allTimeLow, allTimeHigh, 
   const paddingY = 35;
 
   const prices = displayData.map((d) => d.price);
+  const averagePrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
   const minPrice = Math.min(...prices) * 0.96;
   const maxPrice = Math.max(...prices) * 1.04;
   const priceRange = maxPrice - minPrice || 1;
@@ -66,13 +73,13 @@ export function PriceHistoryChart({ priceHistory = [], allTimeLow, allTimeHigh, 
             )}
           </div>
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-            Track price movements across retailers over time to decide the best time to buy.
+            Demo/mock history across retailers. Track price movement to decide when to compare offers.
           </p>
         </div>
 
         {/* Range Selector */}
         <div style={{ display: 'flex', background: 'var(--bg-surface)', padding: '3px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-          {['30d', '90d', 'all'].map((r) => (
+          {['7d', '30d', '3m', '6m', '1y'].map((r) => (
             <button
               key={r}
               onClick={() => setTimeRange(r)}
@@ -88,7 +95,7 @@ export function PriceHistoryChart({ priceHistory = [], allTimeLow, allTimeHigh, 
                 textTransform: 'uppercase'
               }}
             >
-              {r === 'all' ? 'All Time' : r}
+                {r === '1y' ? '1 Year' : r === '3m' ? '3 Months' : r === '6m' ? '6 Months' : r === '7d' ? '7 Days' : '30 Days'}
             </button>
           ))}
         </div>
@@ -104,15 +111,20 @@ export function PriceHistoryChart({ priceHistory = [], allTimeLow, allTimeHigh, 
         </div>
 
         <div style={{ backgroundColor: 'var(--bg-surface)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Average in range</div>
+          <div style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--primary)' }}>${averagePrice.toFixed(2)}</div>
+        </div>
+
+        <div style={{ backgroundColor: 'var(--bg-surface)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>All-Time Highest</div>
-          <div style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+          <div style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--danger)' }}>
             ${(allTimeHigh || maxPrice).toFixed(2)}
           </div>
         </div>
 
         <div style={{ backgroundColor: 'var(--bg-surface)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>AI Buy Recommendation</div>
-          <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: isAtAllTimeLow ? 'var(--success)' : 'var(--accent-cyan)' }}>
+          <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: isAtAllTimeLow ? 'var(--success)' : 'var(--info)' }}>
             {isAtAllTimeLow ? 'Buy Now (Best Price)' : 'Good Deal (Close to Low)'}
           </div>
         </div>
@@ -143,7 +155,7 @@ export function PriceHistoryChart({ priceHistory = [], allTimeLow, allTimeHigh, 
                   y1={yVal}
                   x2={width - paddingX}
                   y2={yVal}
-                  stroke="rgba(255, 255, 255, 0.08)"
+                  stroke="var(--border-subtle)"
                   strokeDasharray="4 4"
                 />
                 <text

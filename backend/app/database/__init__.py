@@ -1,4 +1,5 @@
 """Database connectivity and session lifecycle management."""
-from app.database.session import get_db, engine, SessionLocal
 
-__all__ = ["get_db", "engine", "SessionLocal"]
+from app.database.connection import Base, SessionLocal, engine, get_db
+
+__all__ = ["Base", "SessionLocal", "engine", "get_db"]

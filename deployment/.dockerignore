@@ -1,0 +1,16 @@
+.git/
+.gitignore
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+node_modules/
+dist/
+data/raw/*
+data/processed/*
+postgres_data/
+.pytest_cache/
+.coverage
+htmlcov/

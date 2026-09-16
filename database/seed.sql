@@ -1,0 +1,12 @@
+-- ==============================================================================
+-- Price Comparator Platform - Database Seeding Script (Placeholder)
+-- ==============================================================================
+-- NOTE: In compliance with project guidelines, no mock or fake retailer data
+-- is generated here.
+--
+-- When authorized retailer API keys, sandbox feeds, or official partner catalogs
+-- are configured, seed scripts or ETL data loaders will populate tables here.
+--
+-- Example execution command:
+-- psql -U postgres -d price_comparator -f database/seed.sql
+-- ==============================================================================

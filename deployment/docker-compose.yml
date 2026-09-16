@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: price_comparator_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-price_comparator}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    networks:
+      - price_comparator_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: price_comparator_backend
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@database:5432/${POSTGRES_DB:-price_comparator}
+      BACKEND_HOST: 0.0.0.0
+      BACKEND_PORT: 8000
+    ports:
+      - "8000:8000"
+    networks:
+      - price_comparator_net
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.frontend
+    container_name: price_comparator_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - price_comparator_net
+
+volumes:
+  postgres_data:
+
+networks:
+  price_comparator_net:
+    driver: bridge

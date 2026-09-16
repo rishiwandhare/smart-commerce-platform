@@ -1,0 +1,1 @@
+"""Product recommendation module placeholder."""
